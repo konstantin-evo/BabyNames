@@ -21,8 +21,25 @@ public class BabyBirth {
         }
     }
 
+    public Integer TotalBirth(FileResource fr) {
+        int numBorn;
+        int totalBirth = 0;
+
+        for (CSVRecord record : fr.getCSVParser(false)){
+            numBorn = Integer.parseInt(record.get(2));
+            totalBirth += numBorn;
+        }
+        return totalBirth;
+    }
+
+    public void testTotalBirth() {
+        FileResource fr = new FileResource();
+        int totalBirth = TotalBirth(fr);
+        System.out.println("TotalBirth = " + totalBirth);
+    }
+
     public static void main(String[] args) {
         BabyBirth o = new BabyBirth();
-        o.Printnames();
+        o.testTotalBirth();
     }
 }
