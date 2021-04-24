@@ -1,6 +1,8 @@
 import edu.duke.*;
 import org.apache.commons.csv.*;
 
+import java.util.ArrayList;
+
 public class BabyBirth {
     public void Printnames() {
         FileResource fr = new FileResource();
@@ -21,21 +23,33 @@ public class BabyBirth {
         }
     }
 
-    public Integer TotalBirth(FileResource fr) {
+    public ArrayList<Integer> TotalBirth(FileResource fr) {
+        ArrayList<Integer> Birth = new ArrayList<>();
         int numBorn;
         int totalBirth = 0;
+        int totalBoy = 0;
+        int totalGirl = 0;
 
         for (CSVRecord record : fr.getCSVParser(false)){
             numBorn = Integer.parseInt(record.get(2));
             totalBirth += numBorn;
+            if (record.get(1).equals("M")) { totalBoy += numBorn; }
+            else { totalGirl += numBorn; }
         }
-        return totalBirth;
+
+        Birth.add(0, totalBirth);
+        Birth.add(1, totalBoy);
+        Birth.add(2, totalGirl);
+
+        return Birth;
     }
 
     public void testTotalBirth() {
         FileResource fr = new FileResource();
-        int totalBirth = TotalBirth(fr);
-        System.out.println("TotalBirth = " + totalBirth);
+        ArrayList<Integer> totalBirth = TotalBirth(fr);
+        System.out.println("TotalBirth = " + totalBirth.get(0));
+        System.out.println("TotalBoy = " + totalBirth.get(1));
+        System.out.println("TotalGirl = " + totalBirth.get(2));
     }
 
     public static void main(String[] args) {
