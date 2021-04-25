@@ -1,6 +1,7 @@
 import edu.duke.*;
 import org.apache.commons.csv.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class BabyBirth {
@@ -58,8 +59,16 @@ public class BabyBirth {
         return Birth;
     }
 
-    public Integer getRank(String name, String gender) {
+    public void testTotalBirth() {
         FileResource fr = new FileResource();
+        ArrayList<Integer> totalBirth = TotalBirth(fr);
+        System.out.println("TotalBirth = " + totalBirth.get(0) + ", total number of names = " + totalBirth.get(3));
+        System.out.println("TotalBoy = " + totalBirth.get(1) + ", number of male names = " + totalBirth.get(4));
+        System.out.println("TotalGirl = " + totalBirth.get(2) + ", number of female names = " + totalBirth.get(5));
+    }
+
+    public Integer getRank(Integer year, String name, String gender) {
+        FileResource fr = new FileResource("C:/Users/kpriluch/IdeaProjects/BabyNames/src/main/java/us_babynames/us_babynames_by_year/yob"+year+".csv");
         int rank = 0;
 
         for (CSVRecord record : fr.getCSVParser(false)) {
@@ -74,26 +83,58 @@ public class BabyBirth {
         return -1;
     }
 
-    public void testTotalBirth() {
-        FileResource fr = new FileResource();
-        ArrayList<Integer> totalBirth = TotalBirth(fr);
-        System.out.println("TotalBirth = " + totalBirth.get(0) + ", total number of names = " + totalBirth.get(3));
-        System.out.println("TotalBoy = " + totalBirth.get(1) + ", number of male names = " + totalBirth.get(4));
-        System.out.println("TotalGirl = " + totalBirth.get(2) + ", number of female names = " + totalBirth.get(5));
-    }
-
     public void testGetRank(){
-        String name = "Noah";
+        String name = "James";
         String gender = "M";
-        int rank = getRank(name, gender);
+        int year = 1880;
+        int rank = getRank(year, name, gender);
 
-        System.out.println("The rank of the name " + name + " is " + rank + " (the gender is " + gender + ")");
-
+        System.out.println("The rank of the name " + name + " is " + rank + " (the gender is " + gender + ", the year is " + year + ")");
     }
+
+    public String getNameWithRank(int year, int rank, String gender) {
+        FileResource fr = new FileResource("C:/Users/kpriluch/IdeaProjects/BabyNames/src/main/java/us_babynames/us_babynames_by_year/yob"+year+".csv");
+        String name = null;
+        int currentRank = 0;
+
+        for (CSVRecord record : fr.getCSVParser(false)) {
+            if (record.get(1).equals(gender)) {
+                currentRank += 1;
+                if (currentRank == rank) {
+                    return record.get(0);
+                }
+            }
+        }
+        return "NO NAME";
+    }
+
+    public void testGetNameWithRank(){
+        int rank = 3;
+        int year = 1880;
+        String gender = "F";
+
+        String name = getNameWithRank(year, rank, gender);
+        if (name.equals("NO NAME")){  System.out.println(name); }
+        else {
+            System.out.println("The name with the rank " + rank + " is " + name + " (the gender is " + gender + ")");
+        }
+    }
+
+//    public void whatIsNameInYear(Integer currentYear, Integer mayBeYear, String name, String gender) {
+//        int currentRank = getRank(name, gender);
+//        int mayBeRank = getRank(name, gender);
+//        File myFile = new File("C://Users/kpriluch/IdeaProjects/BabyNames/src/main/java/us_babynames/us_babynames_by_year/yob1881.csv");
+//
+//        System.out.println(myFile.getName());
+//        System.out.println(name + " born in " + currentYear + " would be" + "Sophia if she was born in 2014.");
+//
+//    }
 
     public static void main(String[] args) {
         BabyBirth o = new BabyBirth();
         //o.testTotalBirth();
-        o.testGetRank();
+        //o.testGetRank();
+        o.testGetNameWithRank();
+        //o.whatIsNameInYear(1992, 1993, "Olivua", "F");
     }
 }
