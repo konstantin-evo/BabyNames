@@ -1,7 +1,6 @@
 import edu.duke.*;
 import org.apache.commons.csv.*;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class BabyBirth {
@@ -94,7 +93,6 @@ public class BabyBirth {
 
     public String getNameWithRank(int year, int rank, String gender) {
         FileResource fr = new FileResource("C:/Users/kpriluch/IdeaProjects/BabyNames/src/main/java/us_babynames/us_babynames_by_year/yob"+year+".csv");
-        String name = null;
         int currentRank = 0;
 
         for (CSVRecord record : fr.getCSVParser(false)) {
@@ -120,21 +118,21 @@ public class BabyBirth {
         }
     }
 
-//    public void whatIsNameInYear(Integer currentYear, Integer mayBeYear, String name, String gender) {
-//        int currentRank = getRank(name, gender);
-//        int mayBeRank = getRank(name, gender);
-//        File myFile = new File("C://Users/kpriluch/IdeaProjects/BabyNames/src/main/java/us_babynames/us_babynames_by_year/yob1881.csv");
-//
-//        System.out.println(myFile.getName());
-//        System.out.println(name + " born in " + currentYear + " would be" + "Sophia if she was born in 2014.");
-//
-//    }
+    public void whatIsNameInYear(Integer currentYear, Integer mayBeYear, String name, String gender) {
+        int currentRank = getRank(currentYear, name, gender);
+        String mayBeName= getNameWithRank(mayBeYear, currentRank, gender);
+
+        System.out.println(name + " born in " + currentYear + " would be " + mayBeName + " if she was born in " + mayBeYear + ".");
+    }
 
     public static void main(String[] args) {
         BabyBirth o = new BabyBirth();
         //o.testTotalBirth();
         //o.testGetRank();
-        o.testGetNameWithRank();
+        //o.testGetNameWithRank();
         //o.whatIsNameInYear(1992, 1993, "Olivua", "F");
+        o.whatIsNameInYear(1880, 1881, "Clara", "F");
     }
+
+
 }
