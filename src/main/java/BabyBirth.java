@@ -84,9 +84,9 @@ public class BabyBirth {
     }
 
     public void testGetRank(){
-        String name = "James";
+        String name = "Frank";
         String gender = "M";
-        int year = 1880;
+        int year = 1971;
         int rank = getRank(year, name, gender);
 
         System.out.println("The rank of the name " + name + " is " + rank + " (the gender is " + gender + ", the year is " + year + ")");
@@ -108,9 +108,9 @@ public class BabyBirth {
     }
 
     public void testGetNameWithRank(){
-        int rank = 3;
-        int year = 1880;
-        String gender = "F";
+        int rank = 450;
+        int year = 1982;
+        String gender = "M";
 
         String name = getNameWithRank(year, rank, gender);
         if (name.equals("NO NAME")){  System.out.println(name); }
@@ -197,11 +197,11 @@ public class BabyBirth {
         //o.testTotalBirth();
         //o.testGetRank();
         //o.testGetNameWithRank();
-        //o.whatIsNameInYear(1992, 1993, "Olivua", "F");
+        //o.whatIsNameInYear(1974, 2014, "Owen", "M");
         //o.whatIsNameInYear(2012, 2014, "Isabella", "F");
-        //System.out.println(o.yearOfHighestRank("Mason","M"));
-        //System.out.println(o.getAverageRank("Jacob","M"));
-        System.out.println(o.getTotalBirthsRankedHigher(1880, "Elizabeth", "F"));
+        //System.out.println(o.yearOfHighestRank("Mich","M"));
+        //System.out.println(o.getAverageRank("Robert","M"));
+        System.out.println(o.getTotalBirthsRankedHigher(1990, "Emily", "F"));
     }
 
 
