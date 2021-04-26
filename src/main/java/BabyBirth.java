@@ -177,6 +177,21 @@ public class BabyBirth {
         return averageRank;
     }
 
+    public Integer getTotalBirthsRankedHigher(int year, String name, String gender) {
+        FileResource fr = new FileResource("C:/Users/kpriluch/IdeaProjects/BabyNames/src/main/java/us_babynames/us_babynames_by_year/yob"+year+".csv");
+        int totalBirthsRankedHigher = 0;
+        int comparedRank = getRank(year, name, gender);
+
+        for (CSVRecord record : fr.getCSVParser(false)) {
+            int currentRank = getRank(year, record.get(0), gender);
+
+            if (record.get(1).equals(gender) && currentRank < comparedRank) {
+                totalBirthsRankedHigher += Integer.parseInt(record.get(2));
+            }
+        }
+        return totalBirthsRankedHigher;
+    }
+
     public static void main(String[] args) {
         BabyBirth o = new BabyBirth();
         //o.testTotalBirth();
@@ -185,7 +200,8 @@ public class BabyBirth {
         //o.whatIsNameInYear(1992, 1993, "Olivua", "F");
         //o.whatIsNameInYear(2012, 2014, "Isabella", "F");
         //System.out.println(o.yearOfHighestRank("Mason","M"));
-        System.out.println(o.getAverageRank("Jacob","M"));
+        //System.out.println(o.getAverageRank("Jacob","M"));
+        System.out.println(o.getTotalBirthsRankedHigher(1880, "Elizabeth", "F"));
     }
 
 
