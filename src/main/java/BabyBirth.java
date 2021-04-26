@@ -1,6 +1,7 @@
 import edu.duke.*;
 import org.apache.commons.csv.*;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class BabyBirth {
@@ -74,7 +75,7 @@ public class BabyBirth {
 
             if (record.get(1).equals(gender)) {
                 rank += 1;
-                if (record.get(0).equals(name) ) {
+                if (record.get(0).equals(name)) {
                     return rank;
                 }
             }
@@ -125,13 +126,66 @@ public class BabyBirth {
         System.out.println(name + " born in " + currentYear + " would be " + mayBeName + " if she was born in " + mayBeYear + ".");
     }
 
+    public Integer yearOfHighestRank(String name, String gender) {
+        DirectoryResource dr = new DirectoryResource();
+        int currentMaxRankYear = -1;
+        int currentMaxRank = -1;
+
+        for (File f : dr.selectedFiles()){
+            FileResource fr = new FileResource(f);
+            CSVParser parser = fr.getCSVParser(false);
+            int currentYear = Integer.parseInt(f.getName().substring(3,7));
+            int tempRank = 0;
+            int rank = -1;
+
+            for (CSVRecord record: parser){
+                if(record.get(1).equals(gender)){
+                    tempRank += 1;
+                    if(record.get(0).equals(name)){
+                        rank = tempRank;
+                        break;
+                    }
+                }
+            }
+            if (currentMaxRank == -1 && rank != -1){
+                currentMaxRank = rank;
+                currentMaxRankYear = currentYear;
+            } else if(rank<currentMaxRank && rank != -1){
+                currentMaxRank = rank;
+                currentMaxRankYear = currentYear;
+            }
+        }
+        return currentMaxRankYear;
+    }
+
+    private double getAverageRank(String name, String gender){
+        double sumOfRank = 0.0;
+        double numberOfYears = 0.0;
+        double averageRank = -1.0;
+        DirectoryResource dr = new DirectoryResource();
+
+        for(File f: dr.selectedFiles()){
+            numberOfYears += 1.0;
+            FileResource fr = new FileResource(f);
+            int year = Integer.parseInt(f.getName().substring(3,7));
+            int rank = getRank(year, name, gender);
+
+            if (rank != -1){ sumOfRank += (double)rank; }
+        }
+
+        if(sumOfRank != 0.0){ averageRank = sumOfRank/numberOfYears; }
+        return averageRank;
+    }
+
     public static void main(String[] args) {
         BabyBirth o = new BabyBirth();
         //o.testTotalBirth();
         //o.testGetRank();
         //o.testGetNameWithRank();
         //o.whatIsNameInYear(1992, 1993, "Olivua", "F");
-        o.whatIsNameInYear(1880, 1881, "Clara", "F");
+        //o.whatIsNameInYear(2012, 2014, "Isabella", "F");
+        //System.out.println(o.yearOfHighestRank("Mason","M"));
+        System.out.println(o.getAverageRank("Jacob","M"));
     }
 
 
